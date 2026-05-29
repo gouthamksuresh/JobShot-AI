@@ -1,0 +1,168 @@
+{
+  "personal": {
+    "name": "Goutham K Suresh",
+    "dob": "04-01-2005",
+    "email": "me.goutham.tech@gmail.com",
+    "phone": "+91 9746154656",
+    "city": "Kodungallur, Kerala, India",
+    "linkedin": "linkedin.com/in/gouthamksuresh",
+    "github": "github.com/gouthamksuresh",
+    "apaar_id": "777693978367"
+  },
+  "education": [
+    {
+      "level": "Graduation",
+      "degree": "Bachelor of Computer Applications (BCA)",
+      "specialization": "AI Specialization",
+      "university": "Bengaluru North University",
+      "college": "Krupanidhi Degree College, Chikkabellandur, Bengaluru",
+      "college_id": "C-20954",
+      "reg_no": "U19CU22S0117",
+      "year": "2022-2025",
+      "cgpa": "6.59",
+      "semester_results": [
+        {"sem": 1, "percentage": "68.00", "sgpa": 7.19, "result": "PASS"},
+        {"sem": 2, "percentage": "62.25", "sgpa": 6.60, "result": "PASS"},
+        {"sem": 3, "percentage": "60.88", "sgpa": 6.28, "result": "PASS"},
+        {"sem": 4, "percentage": "59.50", "sgpa": 6.33, "result": "PASS"},
+        {"sem": 5, "percentage": "56.71", "sgpa": 5.88, "result": "PASS"},
+        {"sem": 6, "percentage": "71.14", "sgpa": 7.33, "result": "PASS"}
+      ],
+      "standout_scores": {
+        "internship": "90/100",
+        "project_work": "130/150",
+        "ai_applications": "64/100",
+        "web_content_management": "68/100",
+        "cloud_computing": "62/100"
+      },
+      "key_subjects": [
+        "Cloud Computing", "Cyber Security", "Artificial Intelligence & Applications",
+        "Operating Systems", "Computer Communication & Networks",
+        "Database Management Systems", "Python Programming",
+        "Design & Analysis of Algorithms", "Software Engineering",
+        "PHP & MySQL", "Web Content Management", "Data Structures (C & Java)",
+        "C# & .NET Framework", "Open Source Tools"
+      ]
+    },
+    {
+      "level": "Class XII",
+      "stream": "Computer Science",
+      "board": "Kerala Board of Higher Secondary Examinations",
+      "school": "St. Joseph's HSS, Mathilakam",
+      "year": "2022",
+      "total_score": "844/1200",
+      "percentage": "70.33",
+      "subject_scores": {
+        "English": "138/160 (B)",
+        "Malayalam": "129/160 (B)",
+        "Physics": "160/200 (A)",
+        "Chemistry": "130/200 (B)",
+        "Computer Science": "166/200 (A)",
+        "Mathematics": "121/200 (B)"
+      }
+    },
+    {
+      "level": "Class X",
+      "board": "CBSE",
+      "school": "Amrita Vidyalayam, Kodungallur, Thrissur, Kerala",
+      "year": "2020",
+      "result": "PASS",
+      "subject_scores": {
+        "English": "63/100 (C2)",
+        "Malayalam": "57/100 (D2)",
+        "Mathematics": "33/100 (D2)",
+        "Science": "52/100 (C1)",
+        "Social Science": "77/100 (B2)"
+      }
+    }
+  ],
+  "experience": [
+    {
+      "type": "internship",
+      "role": "DevOps Intern",
+      "company": "Elevate Labs",
+      "location": "Bengaluru, India",
+      "duration": "Sep 2025 – Jan 2026",
+      "university_grade": "90/100",
+      "tools": ["Jenkins", "GitHub Actions", "Docker", "Kubernetes", "AWS", "GCP"],
+      "responsibilities": [
+        "Designed and optimized CI/CD pipelines using Jenkins and GitHub Actions, reducing manual deployment effort and improving release efficiency",
+        "Containerized applications using Docker and orchestrated deployments via Kubernetes, enhancing scalability and environment consistency",
+        "Deployed containerized workloads on AWS and GCP, architecting scalable and fault-tolerant cloud infrastructure",
+        "Monitored pipeline performance and system health metrics, ensuring continuous stability and rapid incident response",
+        "Simulated production-grade release workflows: automated multi-stage build, test, and deployment cycles"
+      ]
+    },
+    {
+      "type": "internship",
+      "role": "Data Science Intern",
+      "company": "Prinston Smart Engineers",
+      "location": "Bengaluru, India",
+      "duration": "Jan 2025 – Mar 2025",
+      "tools": ["Python", "Pandas", "EDA", "Machine Learning"],
+      "responsibilities": [
+        "Analyzed real-world datasets using Python and Pandas — cleaning, transformation, aggregation",
+        "Designed and built a rule-based laptop recommendation system improving selection speed by 60%",
+        "Performed comprehensive Exploratory Data Analysis — distributions, correlations, outliers",
+        "Explored and evaluated Machine Learning models for classification and recommendation tasks"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "DevFlow — Production-Grade DevOps Pipeline",
+      "status": "In Progress",
+      "stack": ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "AWS", "Prometheus", "Grafana", "Bash"],
+      "description": "End-to-end DevOps pipeline: Dockerized Flask app → GitHub Actions CI/CD → Terraform IaC → AWS deployment → Kubernetes orchestration → Prometheus/Grafana monitoring"
+    },
+    {
+      "name": "JobShot AI — Automated Job Application Engine",
+      "status": "In Progress",
+      "stack": ["Python", "FastAPI", "React", "Claude AI API", "Playwright", "Gmail SMTP", "SQLite"],
+      "description": "AI agent that reads job posting → tailors resume → generates cover letter + email → sends application in one click. Includes Kanban tracker and approval gate."
+    },
+    {
+      "name": "CI/CD Pipeline Automation",
+      "date": "Dec 2025",
+      "stack": ["Jenkins", "GitHub Actions", "Docker"],
+      "description": "End-to-end automated pipeline for build, test and deployment with containerized environments"
+    },
+    {
+      "name": "Internship Management System",
+      "date": "Jan 2025",
+      "stack": ["Python", "Flask", "SQLite", "HTML", "CSS", "JavaScript"],
+      "metrics": {
+        "workload_reduction": "70%",
+        "efficiency_improvement": "3x",
+        "match_accuracy_increase": "45%"
+      }
+    },
+    {
+      "name": "JSS Beauty — Full-Stack Client Web Application",
+      "date": "2024",
+      "url": "https://www.jssbeauty.co.uk",
+      "stack": ["Next.js", "React", "Supabase", "Tailwind CSS", "Framer Motion", "TypeScript"],
+      "description": "Custom salon website with public pages and protected admin dashboard for UK client. Supabase Auth, RLS, image storage, full CRUD for services and portfolio."
+    }
+  ],
+  "skills": {
+    "devops_cloud": ["Docker", "Kubernetes", "Jenkins", "GitHub Actions", "AWS", "GCP", "CI/CD", "Linux", "Bash", "Terraform"],
+    "data_science": ["Python", "Pandas", "EDA", "Rule-based Systems", "ML Model Evaluation", "Data Visualization"],
+    "programming": ["Python", "JavaScript", "Java", "C", "C#", "PHP", "SQL"],
+    "frameworks": ["Flask", "FastAPI", "Next.js", "React", "Tailwind CSS"],
+    "databases": ["MySQL", "SQLite", "Supabase"],
+    "tools": ["Git", "GitHub", "VS Code", "Open Source Tools"]
+  },
+  "certifications": [
+    "AI with Python — Keonics",
+    "Google Cloud Fundamentals — Qwiklabs"
+  ],
+  "languages": ["English", "Malayalam", "Hindi"],
+  "interests": ["Open Source", "Cloud Infrastructure", "AI/ML", "DevOps Automation"],
+  "target": {
+    "roles": ["DevOps Engineer", "Cloud Engineer", "SRE", "Infrastructure Engineer", "Junior Software Engineer"],
+    "locations": ["Bengaluru", "Hyderabad", "Remote", "Any"],
+    "company_type": "Mid-size product company or any permanent role",
+    "timeline": "ASAP"
+  }
+}
