@@ -1,6 +1,11 @@
 # ⚡ JobShot AI v2 — Automated Job Application Engine
 ### Built by Goutham K Suresh
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=flat-square&logo=vite&logoColor=FFD62E)
+
 > Paste a job link → AI reads it → tailors resume → writes cover letter + email → you approve → sends in one click.
 
 ---
@@ -32,6 +37,25 @@ jobshot-v2/
     ├── package.json
     └── vite.config.js
 ```
+
+---
+
+## 🏗️ Architecture & Tech Stack
+
+This project is built using a modern, lightweight, and highly decoupled architecture.
+
+### Frontend
+- **Framework**: React 18 built with **Vite**.
+- **State Management**: Built-in React Hooks (`useState`, `useEffect`) and Context API—no heavy Redux required.
+- **Styling**: Handcrafted, zero-dependency design system using inline styles and CSS variables with a built-in dark/light mode engine.
+
+### Backend
+- **API Framework**: **FastAPI** (Python) running on Uvicorn, with **Pydantic** for rigorous data validation.
+- **Database**: Local **SQLite3** (`jobshot.db`) to store application history safely on your machine.
+- **AI Engine**: **Anthropic API** (`claude-sonnet-4`) reads your JSON profile and custom tailors resumes and cover letters.
+- **Web Scraper**: Custom scraper using **BeautifulSoup4** and **Requests** to extract job descriptions automatically.
+- **PDF Generation**: **ReportLab** dynamically draws an ATS-friendly A4 PDF resume.
+- **Email & Export**: Built-in `smtplib` for Gmail SMTP integration and `gspread` for Google Sheets export.
 
 ---
 
@@ -131,10 +155,12 @@ The AI reads this every time it generates content. Update it anytime — or edit
 
 ## 🔒 Security
 
-- All data stored locally (SQLite)
-- Nothing sends without your explicit approval
-- No third-party tracking
-- Gmail credentials stored only in your local .env
+- **Strictly Local Storage:** All application data is stored in a local SQLite database.
+- **Explicit Consent:** Nothing is sent or exported without your explicit click and approval.
+- **Network Hardened:** Built-in SSRF and DoS protection on the web scraper to prevent local network scanning or memory exhaustion.
+- **Payload Validation:** API endpoints enforce rigorous payload size limits via Pydantic.
+- **Zero Tracking:** No analytics or third-party tracking scripts.
+- **Secure Credentials:** Gmail and API credentials are read strictly from your local `.env`.
 
 ---
 
