@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 import json, os, sqlite3, datetime
 
@@ -41,19 +41,23 @@ def load_profile():
 
 # ── Models ────────────────────────────────────────────
 class JobInput(BaseModel):
-    job_url:         Optional[str] = None
-    hr_email:        Optional[str] = None
-    company:         Optional[str] = None
-    role:            Optional[str] = None
-    job_description: Optional[str] = None
+    job_url:         Optional[str] = Field(None, max_length=1000)
+    hr_email:        Optional[str] = Field(None, max_length=255)
+    company:         Optional[str] = Field(None, max_length=255)
+    role:            Optional[str] = Field(None, max_length=255)
+    job_description: Optional[str] = Field(None, max_length=50000)
 
 class SendInput(BaseModel):
-    company: str; role: str; hr_email: str
-    job_url: Optional[str] = None
-    resume: str; cover_letter: str; email_body: str
+    company: str = Field(..., max_length=255)
+    role: str = Field(..., max_length=255)
+    hr_email: str = Field(..., max_length=255)
+    job_url: Optional[str] = Field(None, max_length=1000)
+    resume: str = Field(..., max_length=50000)
+    cover_letter: str = Field(..., max_length=50000)
+    email_body: str = Field(..., max_length=10000)
 
 class StatusUpdate(BaseModel):
-    status: str
+    status: str = Field(..., max_length=50)
 
 class ProfileUpdate(BaseModel):
     profile: dict
