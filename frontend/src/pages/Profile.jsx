@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react"
 import { ToastContext } from "../App"
 import { Btn, Card, CardHeader, Input, Divider } from "../components/UI"
 
-const API = "http://localhost:8000"
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
 const MASTER_RESUME = `GOUTHAM K SURESH
 DevOps Engineer | Cloud & Infrastructure | SRE

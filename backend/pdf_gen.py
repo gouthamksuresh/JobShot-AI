@@ -20,7 +20,8 @@ def S(name, **kw):
 
 def generate_resume_pdf(resume_text: str = "", company: str = "") -> str:
     """Generate the master resume PDF (same as locked resume v4)"""
-    output_path = "resume_output.pdf"
+    import tempfile, os
+    output_path = os.path.join(tempfile.gettempdir(), "resume_output.pdf")
 
     NAME    = S('name', fontName='Helvetica-Bold', fontSize=24, leading=28)
     TAGLINE = S('tag',  fontSize=10, textColor=LIGHT, leading=14)

@@ -2,7 +2,7 @@ import { useState, useContext } from "react"
 import { ToastContext } from "../App"
 import { Input, Textarea, Btn, Tab, Pill, PreviewBox, ProgressBar, ApprovalGate, Badge } from "../components/UI"
 
-const API = "http://localhost:8000"
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
 const STEPS = [
   [20, "Reading job description..."],

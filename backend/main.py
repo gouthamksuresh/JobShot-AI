@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Optional
-import json, os, sqlite3, datetime
+import json, os, datetime
+from dotenv import load_dotenv
+from supabase import create_client, Client
 
 from ai import generate_all
 from scraper import scrape_job
@@ -13,31 +15,28 @@ from sheets import export_to_sheets
 
 app = FastAPI(title="JobShot AI v2")
 
+load_dotenv()
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+
 app.add_middleware(CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"], allow_headers=["*"])
 
-# ── DB ────────────────────────────────────────────────
-def get_db():
-    conn = sqlite3.connect("jobshot.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+# ── Supabase Setup ────────────────────────────────────
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 
-def init_db():
-    db = get_db()
-    db.execute("""CREATE TABLE IF NOT EXISTS applications (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        company TEXT, role TEXT, hr_email TEXT, job_url TEXT,
-        status TEXT DEFAULT 'Applied',
-        applied_at TEXT,
-        resume TEXT, cover_letter TEXT, email_body TEXT
-    )""")
-    db.commit(); db.close()
-
-init_db()
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL and SUPABASE_KEY else None
 
 def load_profile():
-    with open("profile.json") as f: return json.load(f)
+    if not supabase: return {}
+    try:
+        res = supabase.table("user_profile").select("profile_data").eq("id", 1).execute()
+        if res.data and len(res.data) > 0:
+            return res.data[0].get("profile_data", {})
+    except Exception as e:
+        print("Error loading profile:", e)
+    return {}
 
 # ── Models ────────────────────────────────────────────
 class JobInput(BaseModel):
@@ -94,43 +93,38 @@ async def send(data: SendInput):
     )
     if not success:
         raise HTTPException(500, "Email failed. Check Gmail credentials in .env")
-    db = get_db()
-    db.execute("""INSERT INTO applications
-        (company,role,hr_email,job_url,status,applied_at,resume,cover_letter,email_body)
-        VALUES (?,?,?,?,'Applied',?,?,?,?)""",
-        (data.company, data.role, data.hr_email, data.job_url,
-         datetime.datetime.now().isoformat(),
-         data.resume, data.cover_letter, data.email_body))
-    db.commit(); db.close()
+    if supabase:
+        supabase.table("applications").insert({
+            "company": data.company, "role": data.role, "hr_email": data.hr_email,
+            "job_url": data.job_url, "status": "Applied",
+            "applied_at": datetime.datetime.now().isoformat(),
+            "resume": data.resume, "cover_letter": data.cover_letter, "email_body": data.email_body
+        }).execute()
     return {"success": True}
 
 @app.get("/applications")
 def get_applications():
-    db = get_db()
-    rows = db.execute("SELECT * FROM applications ORDER BY applied_at DESC").fetchall()
-    db.close()
-    return [dict(r) for r in rows]
+    if not supabase: return []
+    res = supabase.table("applications").select("*").order("applied_at", desc=True).execute()
+    return res.data
 
 @app.patch("/applications/{app_id}")
 def update_status(app_id: int, data: StatusUpdate):
-    db = get_db()
-    db.execute("UPDATE applications SET status=? WHERE id=?", (data.status, app_id))
-    db.commit(); db.close()
+    if supabase:
+        supabase.table("applications").update({"status": data.status}).eq("id", app_id).execute()
     return {"success": True}
 
 @app.delete("/applications/{app_id}")
 def delete_application(app_id: int):
-    db = get_db()
-    db.execute("DELETE FROM applications WHERE id=?", (app_id,))
-    db.commit(); db.close()
+    if supabase:
+        supabase.table("applications").delete().eq("id", app_id).execute()
     return {"success": True}
 
 @app.post("/export-sheets")
 async def export_sheets():
-    db = get_db()
-    rows = db.execute("SELECT * FROM applications ORDER BY applied_at DESC").fetchall()
-    db.close()
-    apps = [dict(r) for r in rows]
+    if not supabase: return {"success": False, "error": "Supabase not configured"}
+    res = supabase.table("applications").select("*").order("applied_at", desc=True).execute()
+    apps = res.data
     url = export_to_sheets(apps)
     return {"success": True, "url": url}
 
@@ -139,7 +133,8 @@ def get_profile(): return load_profile()
 
 @app.put("/profile")
 def update_profile(data: ProfileUpdate):
-    with open("profile.json","w") as f: json.dump(data.profile, f, indent=2)
+    if supabase:
+        supabase.table("user_profile").upsert({"id": 1, "profile_data": data.profile}).execute()
     return {"success": True}
 
 @app.post("/pdf")

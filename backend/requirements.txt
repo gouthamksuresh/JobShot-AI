@@ -10,3 +10,4 @@ python-dotenv==1.0.1
 # Google Sheets (optional — only needed for export feature)
 # gspread==6.1.2
 # google-auth==2.34.0
+supabase>=2.3.4

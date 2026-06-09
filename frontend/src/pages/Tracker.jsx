@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react"
 import { ToastContext } from "../App"
 import { Btn, Badge } from "../components/UI"
 
-const API = "http://localhost:8000"
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
 const COLUMNS = [
   { id:"Applied",   label:"Applied",   color:"#1A6AFF", badgeVariant:"blue"  },
