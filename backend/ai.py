@@ -1,10 +1,9 @@
-import anthropic
 import json
-
-client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+import os
+import anthropic
 
 def generate_all(profile: dict, job_description: str, company: str, role: str, hr_email: str) -> dict:
-    """Generate tailored resume, cover letter, and email using Claude"""
+    """Generate tailored resume, cover letter, and email using Gemini (default) or Claude"""
 
     profile_str = json.dumps(profile, indent=2)
 
@@ -39,13 +38,29 @@ Rules:
 - match_score is 0-100 based on how well the profile matches the job
 - Return ONLY the JSON object, no preamble, no markdown backticks"""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=2000,
-        messages=[{"role": "user", "content": prompt}]
-    )
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
 
-    text = message.content[0].text.strip()
+    if gemini_key:
+        # Use Gemini (Free Tier)
+        from google import genai
+        client = genai.Client(api_key=gemini_key)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
+        text = response.text.strip()
+    elif anthropic_key:
+        # Use Anthropic
+        client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+        message = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        text = message.content[0].text.strip()
+    else:
+        raise Exception("No AI API Key found. Set either GEMINI_API_KEY or ANTHROPIC_API_KEY.")
 
     # Strip markdown fences if present
     if text.startswith("```"):
