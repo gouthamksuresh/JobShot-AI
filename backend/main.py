@@ -79,7 +79,10 @@ async def generate(data: JobInput):
     if not job_description:
         raise HTTPException(400, "No job description found. Paste it manually.")
     profile = load_profile()
-    result = generate_all(profile, job_description, company, role, hr_email)
+    try:
+        result = generate_all(profile, job_description, company, role, hr_email)
+    except Exception as e:
+        raise HTTPException(400, str(e))
     return {"company": company, "role": role, "hr_email": hr_email, **result}
 
 @app.post("/send")

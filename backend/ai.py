@@ -42,23 +42,29 @@ Rules:
     anthropic_key = os.getenv("ANTHROPIC_API_KEY")
 
     if gemini_key:
-        # Use Gemini (Free Tier)
-        from google import genai
-        client = genai.Client(api_key=gemini_key)
-        response = client.models.generate_content(
-            model='gemini-1.5-pro',
-            contents=prompt,
-        )
-        text = response.text.strip()
+        try:
+            # Use Gemini (Free Tier)
+            from google import genai
+            client = genai.Client(api_key=gemini_key)
+            response = client.models.generate_content(
+                model='gemini-1.5-flash',
+                contents=prompt,
+            )
+            text = response.text.strip()
+        except Exception as e:
+            raise Exception(f"Gemini API Error: {str(e)}")
     elif anthropic_key:
-        # Use Anthropic
-        client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=2000,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        text = message.content[0].text.strip()
+        try:
+            # Use Anthropic
+            client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+            message = client.messages.create(
+                model="claude-sonnet-4-20250514",
+                max_tokens=2000,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            text = message.content[0].text.strip()
+        except Exception as e:
+            raise Exception(f"Claude API Error: {str(e)}")
     else:
         raise Exception("No AI API Key found. Set either GEMINI_API_KEY or ANTHROPIC_API_KEY.")
 
