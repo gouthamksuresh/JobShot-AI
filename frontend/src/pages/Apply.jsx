@@ -78,6 +78,23 @@ export default function Apply({ C }) {
     showToast("Copied to clipboard")
   }
 
+  async function handleDownloadPdf() {
+    try {
+      showToast("Generating PDF...")
+      const res = await fetch(`${API}/pdf`, { method: "POST" })
+      if (!res.ok) throw new Error("Failed to generate PDF")
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "Goutham_K_Suresh_Resume.pdf"
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
   const inputTabs = [["link","🔗 Job Link"],["email","📧 HR Email"],["manual","✍️ Manual"]]
   const previewTabs = [["resume","📄 Resume"],["cover_letter","📝 Cover Letter"],["email_body","📧 Email"]]
 
@@ -169,7 +186,7 @@ export default function Apply({ C }) {
               style={{ flex:1, justifyContent:"center", background: sent ? "#16a34a" : "#1A6AFF" }}>
               {sent ? "✅ Sent & Logged" : "📤 Send Application"}
             </Btn>
-            <Btn variant="secondary" sm style={{ borderColor:C.border }}>⬇ PDF</Btn>
+            <Btn variant="secondary" sm style={{ borderColor:C.border }} onClick={handleDownloadPdf}>⬇ PDF</Btn>
           </div>
         </div>
       )}
