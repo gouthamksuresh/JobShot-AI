@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react"
 import Apply from "./pages/Apply"
 import Tracker from "./pages/Tracker"
 import Profile from "./pages/Profile"
-import Toast from "./components/Toast"
+import { Toast } from "./components/UI"
 
 export const ThemeContext = createContext()
 export const ToastContext = createContext()
